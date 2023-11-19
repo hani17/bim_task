@@ -50,4 +50,14 @@ class UserFactory extends Factory
             'role' => UserRole::ADMIN,
         ]);
     }
+
+    /**
+     * Indicate that the model's role is customer.
+     */
+    public function customer(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::CUSTOMER,
+        ]);
+    }
 }

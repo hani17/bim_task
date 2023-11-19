@@ -4,7 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRole;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -47,4 +49,27 @@ class User extends Authenticatable
         'password' => 'hashed',
         'role' => UserRole::class
     ];
+
+    /**
+     * @return HasMany<Transaction>
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'payer_id');
+    }
+
+    public function scopeCustomer(Builder $builder): void
+    {
+        $builder->whereRole(UserRole::CUSTOMER);
+    }
+
+    public function scopeAdmin(Builder $builder): void
+    {
+        $builder->whereRole(UserRole::ADMIN);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role == UserRole::ADMIN;
+    }
 }
