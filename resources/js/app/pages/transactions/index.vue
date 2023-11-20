@@ -3,7 +3,7 @@
         <v-row dense class="justify-content-center">
             <v-col cols="4"></v-col>
             <v-col cols="4">
-                <h1 class="my-6">{{ this.$store.state.isAdmin ?  'Transactions' : 'My Transactions' }}</h1>
+                <h1 class="my-6">{{ this.$store.state.isAdmin ?  'Customers Transactions' : 'My Transactions' }}</h1>
                 <transaction-card v-for="item in items" :key="item.id" :item="item"/>
             </v-col>
         </v-row>
