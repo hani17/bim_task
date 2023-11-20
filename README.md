@@ -8,3 +8,4 @@ Simple Transactions tracking app for companies
 - The app will run on port ( :8844 ) if you are going change it don't forget to add domain with port e.g (localhost:port) to SANCTUM_STATEFUL_DOMAINS env so authentication work as intended.
 - make sure to run TestDataSeeder to populate the db with rest data admin, customer users and transactions.
 - this project includes simple web app in vue for auth and displaying transactions for both admin and customer.
+- postman collection included Bim.postman_collection
