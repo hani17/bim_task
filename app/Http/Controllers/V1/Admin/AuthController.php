@@ -27,6 +27,8 @@ class AuthController extends Controller
             UserRole::ADMIN
         );
 
+        $request->session()->regenerate();
+
         return response()->noContent();
     }
 

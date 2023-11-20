@@ -25,6 +25,8 @@ class AuthController
             UserRole::CUSTOMER
         );
 
+        $request->session()->regenerate();
+
         return response()->noContent();
     }
 

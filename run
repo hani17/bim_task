@@ -24,7 +24,7 @@ echo "running migrations and run TestDataSeeder seeder Done"
 
 echo "================================================================"
 echo "customer user : user@user.com"
-echo "customer user : admin@admin.com"
+echo "admin user : admin@admin.com"
 echo "password : password"
 echo "================================================================"
 

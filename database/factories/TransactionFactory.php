@@ -26,7 +26,7 @@ class TransactionFactory extends Factory
         return [
             'amount' => $originalAmount,
             'payer_id' => User::factory(),
-            'due_on' => now()->addDays(2),
+            'due_on' => now()->addDays(fake()->numberBetween(2, 100)),
             'vat_amount' => $vatAmount,
             'is_vat_inclusive' => $isVatInclusive,
             'status' => TransactionStatus::OUTSTANDING,
@@ -40,18 +40,20 @@ class TransactionFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'status' => TransactionStatus::OVERDUE,
-            'due_on' => now()->subMonths(2)
+            'due_on' => now()->subMonths(fake()->numberBetween(2, 12))
         ]);
     }
 
     /**
-     * Indicate that the model's status is overdue.
+     * Indicate that the model's status is paid.
      */
     public function paid(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'status' => TransactionStatus::PAID,
-            'total_paid_amount' => $attributes['amount'] +  $attributes['vat_amount']
-        ]);
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => TransactionStatus::PAID,
+                'total_paid_amount' => $attributes['amount'] +  $attributes['vat_amount']
+            ];
+        });
     }
 }

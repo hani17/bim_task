@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\TransactionStatus;
+use App\Exceptions\PaymentException;
 use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
@@ -41,9 +42,15 @@ class TransactionService
         ]);
     }
 
+    /**
+     * @throws PaymentException
+     */
     public function recordPayment(array $data): Transaction
     {
         $transaction = Transaction::findOrFail($data['transaction_id']);
+        if ($transaction->status == TransactionStatus::PAID) {
+            throw PaymentException::fullyPaid();
+        }
         $transaction->payments()->create($data);
         $totalPaidAmount = $transaction->payments()->sum('amount');
         $transaction->update([

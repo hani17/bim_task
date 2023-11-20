@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-app-bar color="primary" dark app>
-            <v-toolbar-title>Bim Task</v-toolbar-title>
+            <v-toolbar-title>Bim Task {{ $store.state.user ? $store.state.user.email : '' }}</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
                 <v-btn
@@ -13,7 +13,7 @@
                     <v-icon left dark>{{ item.icon }}</v-icon>
                     {{ item.title }}
                 </v-btn>
-                <v-btn text @click="logout">
+                <v-btn text @click="logout" v-if="$store.state.isAuthenticated">
                     Logout
                 </v-btn>
             </v-toolbar-items>

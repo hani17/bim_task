@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class ReportingService
 {
-    public function generateReport(string $startDate,string $endDate)
+    public function generateReport(string $startDate, string $endDate)
     {
         $reports = Transaction::select(
             DB::raw('MONTH(due_on) as month'),

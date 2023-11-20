@@ -39,10 +39,10 @@
                                     <v-form ref="loginForm" v-model="valid" lazy-validation>
                                         <v-row>
                                             <v-col cols="12">
-                                                <v-text-field v-model="loginEmail" :rules="loginEmailRules" label="E-mail" required></v-text-field>
+                                                <v-text-field v-model="adminLoginEmail" :rules="loginEmailRules" label="E-mail" required></v-text-field>
                                             </v-col>
                                             <v-col cols="12">
-                                                <v-text-field v-model="loginPassword" :append-icon="show1?'eye':'eye-off'" :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'" name="input-10-1" label="Password" hint="At least 8 characters" counter @click:append="show1 = !show1"></v-text-field>
+                                                <v-text-field v-model="adminLoginPassword" :append-icon="show1?'eye':'eye-off'" :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'" name="input-10-1" label="Password" hint="At least 8 characters" counter @click:append="show1 = !show1"></v-text-field>
                                             </v-col>
                                             <v-col class="d-flex" cols="12" sm="6" xsm="12">
                                             </v-col>
@@ -59,6 +59,24 @@
                 </div>
             </v-col>
         </v-row>
+
+        <v-snackbar
+            v-model="snackbar"
+            top
+        >
+            {{ errorMessage }}
+
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                    color="pink"
+                    text
+                    v-bind="attrs"
+                    @click="snackbar = false"
+                >
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </v-container>
 </template>
 
@@ -81,8 +99,8 @@ export default {
         async login() {
             if (this.$refs.loginForm.validate()) {
                 const data = {
-                    email: this.loginEmail,
-                    password: this.loginPassword,
+                    email: this.tab === 0 ? this.loginEmail : this.adminLoginEmail,
+                    password: this.tab === 0 ? this.loginPassword : this.adminLoginPassword,
                 };
 
                 getCsrf()
@@ -93,7 +111,9 @@ export default {
                             this.$router.push('/').catch(() => {});
                         })
                             .catch((error) => {
-                                console.error('Error during login:', error);
+                                this.errorMessage = error.response && error.response.data
+                                    ? error.response.data.message : "an error occurred";
+                                this.snackbar = true;
                             });
                     })
                     .catch((error) => {
@@ -112,8 +132,10 @@ export default {
         valid: true,
 
         verify: "",
-        loginPassword: "",
-        loginEmail: "",
+        loginPassword: "password",
+        loginEmail: "user@user.com",
+        adminLoginPassword: "password",
+        adminLoginEmail: "admin@admin.com",
         loginEmailRules: [
             v => !!v || "Required",
             v => /.+@.+\..+/.test(v) || "E-mail must be valid"
@@ -123,7 +145,9 @@ export default {
         rules: {
             required: value => !!value || "Required.",
             min: v => (v && v.length >= 8) || "Min 8 characters"
-        }
+        },
+        snackbar: false,
+        errorMessage: ""
     })
 }
 </script>

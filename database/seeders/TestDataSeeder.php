@@ -13,7 +13,7 @@ class TestDataSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = $this->getAdmin();
+        $this->getAdmin();
         $customer = $this->getCustomer();
 
         Transaction::factory()->count(20)->create(['payer_id' => $customer->id]);
@@ -27,7 +27,7 @@ class TestDataSeeder extends Seeder
 
     public function getAdmin()
     {
-        $admin = User::whereEmail('admin@admin.com')->first();
+        $admin = User::admin()->whereEmail('admin@admin.com')->first();
         if (!$admin) {
             $admin = User::factory()->admin()->create(['email' => 'admin@admin.com']);
         }
@@ -36,7 +36,7 @@ class TestDataSeeder extends Seeder
 
     public function getCustomer()
     {
-        $customer = User::whereEmail('user@user.com')->first();
+        $customer = User::customer()->whereEmail('user@user.com')->first();
         if (!$customer) {
             $customer = User::factory()->customer()->create(['email' => 'user@user.com']);
         }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Exceptions\PaymentException;
 use App\Models\Transaction;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -21,11 +22,15 @@ class RecordePaymentRequest extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
+     * @throws PaymentException
      */
     public function rules(): array
     {
         $transaction = Transaction::findOrFail($this->transaction_id);
         $maxAmount = $transaction->amount_with_vat - $transaction->total_paid_amount;
+        if ($maxAmount == 0) {
+            throw PaymentException::fullyPaid();
+        }
         return [
             'transaction_id' => 'required|integer|exists:transactions,id',
             'amount' => 'required|numeric|gt:0|max:'.$maxAmount,
