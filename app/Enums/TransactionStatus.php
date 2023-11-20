@@ -12,9 +12,9 @@ enum TransactionStatus: int
     {
         return match($this)
         {
-            TransactionStatus::OUTSTANDING => 'outstanding',
-            TransactionStatus::OVERDUE => 'overdue',
-            TransactionStatus::PAID => 'paid',
+            TransactionStatus::OUTSTANDING => 'Outstanding',
+            TransactionStatus::OVERDUE => 'Overdue',
+            TransactionStatus::PAID => 'Paid',
         };
     }
 }

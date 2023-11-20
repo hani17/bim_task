@@ -15,7 +15,7 @@ class TransactionService
     {
         return Transaction::with('payer')
             ->latest()
-            ->paginate();
+            ->paginate(10);
     }
 
     public function createTransaction(array $data): Transaction

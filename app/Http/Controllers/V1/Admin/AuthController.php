@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\LoginRequest;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
@@ -19,7 +19,7 @@ class AuthController extends Controller
     /**
      * @throws AuthException
      */
-    public function webLogin(LoginRequest $request): RedirectResponse
+    public function webLogin(LoginRequest $request): Response
     {
         $this->authService->webLogin(
             $request->input('email'),
@@ -27,7 +27,7 @@ class AuthController extends Controller
             UserRole::ADMIN
         );
 
-        return redirect('/');
+        return response()->noContent();
     }
 
     /**

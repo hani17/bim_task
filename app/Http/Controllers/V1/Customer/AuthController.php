@@ -7,7 +7,6 @@ use App\Exceptions\AuthException;
 use App\Http\Requests\Customer\LoginRequest;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 
 class AuthController
 {
@@ -18,7 +17,7 @@ class AuthController
     /**
      * @throws AuthException
      */
-    public function webLogin(LoginRequest $request): RedirectResponse
+    public function webLogin(LoginRequest $request)
     {
         $this->authService->webLogin(
             $request->input('email'),
@@ -26,7 +25,7 @@ class AuthController
             UserRole::CUSTOMER
         );
 
-        return redirect('/');
+        return response()->noContent();
     }
 
     /**

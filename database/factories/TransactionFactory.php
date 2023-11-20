@@ -25,7 +25,7 @@ class TransactionFactory extends Factory
         $vatAmount = $isVatInclusive ? ($amount - $originalAmount) : ($originalAmount * ($vat / 100));
         return [
             'amount' => $originalAmount,
-            'payer' => User::factory(),
+            'payer_id' => User::factory(),
             'due_on' => now()->addDays(2),
             'vat_amount' => $vatAmount,
             'is_vat_inclusive' => $isVatInclusive,
@@ -39,7 +39,8 @@ class TransactionFactory extends Factory
     public function overdue(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status' => TransactionStatus::OVERDUE
+            'status' => TransactionStatus::OVERDUE,
+            'due_on' => now()->subMonths(2)
         ]);
     }
 
@@ -50,6 +51,7 @@ class TransactionFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'status' => TransactionStatus::PAID,
+            'total_paid_amount' => $attributes['amount'] +  $attributes['vat_amount']
         ]);
     }
 }

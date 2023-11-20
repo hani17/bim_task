@@ -5,6 +5,7 @@ use App\Http\Controllers\V1\Admin\PaymentController;
 use App\Http\Controllers\V1\Admin\ReportingController;
 use App\Http\Controllers\V1\Admin\TransactionController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,12 +19,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::group(['prefix' => 'v1'], function () {
-
     Route::group(['prefix' => 'admin'], function () {
         Route::post('login', [AuthController::class, 'webLogin']);
         Route::post('login/mobile', [AuthController::class, 'tokenLogin']);
@@ -41,6 +38,19 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('transactions', [\App\Http\Controllers\V1\Customer\TransactionController::class, 'getTransactions']);
+        });
+    });
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/user', function (Request $request) {
+            return $request->user();
+        });
+
+        Route::get('/logout', function (Request $request) {
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            Auth::guard("web")->logout();
+            return response()->json('Successfully logged out');
         });
     });
 });
