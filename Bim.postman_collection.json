@@ -1,0 +1,351 @@
+{
+	"info": {
+		"_postman_id": "743ba01c-e076-4092-9e6d-03ad090a57f6",
+		"name": "Bim",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Token Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var json = JSON.parse(responseBody);",
+											"pm.environment.set('token',  json.token);",
+											"pm.globals.set(\"token\", json.token);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\" : \"admin@admin.com\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8844/api/v1/admin/login/mobile",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8844",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"login",
+										"mobile"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Transactions",
+					"item": [
+						{
+							"name": "View",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8844/api/v1/admin/transactions?page=6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8844",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"transactions"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Store",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"amount\": 2000,\n    \"payer\": 2,\n    \"due_on\": \"2023-8-10\",\n    \"vat\": 20,\n    \"is_vat_inclusive\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8844/api/v1/admin/transactions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8844",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"transactions"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Payments",
+					"item": [
+						{
+							"name": "Record",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"transaction_id\" : 160,\n    \"amount\": \"3174.67\",\n    \"paid_on\": \"2023-10-10\",\n    \"details\": \"good details\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8844/api/v1/admin/payments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8844",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"payments"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Report",
+					"item": [
+						{
+							"name": "Generate",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8844/api/v1/admin/generate_report?start_date=2023-4-1&end_date=2023-12-30",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8844",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"generate_report"
+									],
+									"query": [
+										{
+											"key": "start_date",
+											"value": "2023-4-1"
+										},
+										{
+											"key": "end_date",
+											"value": "2023-12-30"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Token Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var json = JSON.parse(responseBody);",
+											"pm.environment.set('token',  json.token);",
+											"pm.globals.set(\"token\", json.token);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\" : \"user@user.com\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8844/api/v1/customer/login/mobile",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8844",
+									"path": [
+										"api",
+										"v1",
+										"customer",
+										"login",
+										"mobile"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Transactions",
+					"item": [
+						{
+							"name": "View",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8844/api/v1/customer/transactions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8844",
+									"path": [
+										"api",
+										"v1",
+										"customer",
+										"transactions"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
